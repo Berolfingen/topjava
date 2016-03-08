@@ -8,8 +8,8 @@ import ru.javawebinar.topjava.model.UserMealWithExceed;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -32,9 +32,21 @@ public class UserMealsUtilTest {
     @Test
     public void testGetFilteredMealsWithExceeded() {
         List<UserMealWithExceed> actual = UserMealsUtil.getFilteredMealsWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
-        List<UserMealWithExceed> expected = new ArrayList<>();
-        expected.add(new UserMealWithExceed(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500, false));
-        expected.add(new UserMealWithExceed(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000, true));
-        assertEquals(actual.toString(), expected.toString());
+        List<UserMealWithExceed> expected = Arrays.asList(new UserMealWithExceed(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500, false),
+                new UserMealWithExceed(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000, true));
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testEmptyList() {
+        List<UserMealWithExceed> actual = UserMealsUtil.getFilteredMealsWithExceeded(mealList, LocalTime.of(1, 0), LocalTime.of(2, 0), 2000);
+        assertEquals(actual, Collections.emptyList());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void incorretTimePeriod() {
+        List<UserMealWithExceed> actual = UserMealsUtil.getFilteredMealsWithExceeded(mealList, LocalTime.of(15, 0), LocalTime.of(2, 0), 2000);
+        assertEquals(actual, Collections.emptyList());
     }
 }

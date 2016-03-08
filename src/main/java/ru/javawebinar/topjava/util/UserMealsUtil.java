@@ -12,16 +12,17 @@ import java.util.stream.Collectors;
 public class UserMealsUtil {
 
     public static List<UserMealWithExceed> getFilteredMealsWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        //todo make in one stream
+        if (startTime.compareTo(endTime) >= 0) {
+            throw new IllegalArgumentException("Start time can't be equal or bigger than the end time");
+        }
+
         Map<LocalDate, Integer> caloriesPerDate = mealList.stream()
                 .collect(Collectors.groupingBy(m -> m.getDateTime().toLocalDate(), Collectors.summingInt(m -> m.getCalories())));
 
-        List<UserMealWithExceed> result = mealList.stream().
+        return mealList.stream().
                 filter(m -> (TimeUtil.isBetween(m.getDateTime().toLocalTime(), startTime, endTime)))
                 .map(userMeal -> new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(),
                         caloriesPerDate.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay)).
                         collect(Collectors.toList());
-
-        return result;
     }
 }
