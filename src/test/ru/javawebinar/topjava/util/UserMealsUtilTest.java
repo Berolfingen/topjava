@@ -47,6 +47,5 @@ public class UserMealsUtilTest {
     @Test(expected = IllegalArgumentException.class)
     public void incorretTimePeriod() {
         List<UserMealWithExceed> actual = UserMealsUtil.getFilteredMealsWithExceeded(mealList, LocalTime.of(15, 0), LocalTime.of(2, 0), 2000);
-        assertEquals(actual, Collections.emptyList());
     }
 }
