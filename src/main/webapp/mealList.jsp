@@ -4,17 +4,24 @@
 <head>
     <title>Meals</title>
 </head>
+<style>
+    .green{background-color: green}
+    .red{background-color: red}
+</style>
 <body>
 <h2>Meals</h2>
-<table>
-    <tbody>DateTime</tbody>
-    <tbody>Description</tbody>
-    <tbody>Calories</tbody>
+<table border="1">
+    <tr>
+    <th>DateTime</th>
+    <th>Description</th>
+    <th>Calories</th>
+    </tr>
     <c:forEach items="${meals}" var="meals">
-        <tr>
-            <td><c:out value="${meals.dateTime}"/><td>
-            <td><c:out value="${meals.description}"/><td>
-            <td><c:out value="${meals.calories}"/><td>
+        <c:set var="rowStyle" value="${meals.exceed== true?'red':'green'}"/>
+        <tr class="${rowStyle}">
+            <td>${meals.dateTime}</td>
+            <td>${meals.description}</td>
+            <td>${meals.calories}</td>
         </tr>
     </c:forEach>
 </table>
