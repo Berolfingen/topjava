@@ -13,10 +13,6 @@ import java.util.Map;
 
 public class InMemoryUserMeal {
 
-    static {
-        fillingDb();
-    }
-
     private static final Logger LOG = getLogger(InMemoryUserMeal.class);
 
     public static final List<UserMeal> initialData = Arrays.asList(
@@ -40,4 +36,9 @@ public class InMemoryUserMeal {
             db.put(userMeal.getId(), userMeal);
         }
     }
+
+    static {
+        fillingDb();
+    }
+
 }
